@@ -20,7 +20,9 @@ The biggest challenges for both tenants and landlords/letting agents with curren
 * Tenants must rely/trust the landlord or agent to protect their deposit correctly. It is also the tenants responsibilty to check if the deposit has been protected correctly and raise a legal claim it if has not. 
 
 ## Proposed Solution
-This project aims to implement a streamlined tenancy deposit service based on Ethereum smart contracts - "Smart Tenancy Deposits". The solution will implement a single web application for both tenants and lanlords to manage deposits and deposit agreements. There will also be an adjudication service to handle and resolve any disputes between landlord and tenant (in reality and in compliance with UK law, this would be the government approved/authorised third party which is providing this "smart tenancy deposit" service).
+This project aims to implement a streamlined tenancy deposit service based on Ethereum smart contracts - "Smart Tenancy Deposits".
+
+The solution will implement a single web application for both tenants and lanlords to manage deposits and deposit agreements. There will also be an adjudication service to handle and resolve any disputes between landlord and tenant (in reality and in compliance with UK law, this would be the government approved/authorised third party which is providing this "smart tenancy deposit" service).
 
 ### (Very) Highlevel User Workflow
 #### Tenants
