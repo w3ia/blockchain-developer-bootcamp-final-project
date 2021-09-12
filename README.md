@@ -51,4 +51,13 @@ The solution will implement a single web application/dapp for both tenants and l
 
 TBD
 
+questions/points to consider and investigate further:
+* Will deposit payment be in eth or gbp - if the latter, then will need to get current price at time of deposit and withdrawl i.e. use an oracle service, or perhaps use a gbp stablecoin if one exist.
+* 
+* Do smart contracts support state/workflow e.g. Deposit payed -> notify landlord -> wait for landlord to approve -> send confirmation back to tenant, or will each stage be its own transaction and state will need to be stored off-chain.
+
+* Take multi-sig approach or track approval state in workflow state - need to better understand how multi-sig actually works/is implemented.
+
+* What happens to approval when adjudicator is involved. Does release approval still remain with tenant and landlord but release function requires adjudicator approved flag to be passed in, or funds are moved to adjudicators wallet in case of dispute and they are then responsible for releasing (this ends up being the same as the current custodial service and requiring full trust in the third-party). Needs more thought.
+
 -----
