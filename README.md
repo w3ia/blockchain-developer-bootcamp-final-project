@@ -25,7 +25,7 @@ This project aims to implement a streamlined tenancy deposit service based on Et
 The solution will implement a single web application for both tenants and landlords to manage deposits and deposit agreements i.e. Via the use of smart contracts, the deposit will be protected by both the tenant and landlord wallets and any amount will not be withdrawable without approval from both parties. There will also be an adjudication service to handle and resolve any disputes between landlord and tenant (in reality and in compliance with UK law, this would be the government approved/authorised third party which is providing this "smart tenancy deposit" service).
 
 ### (Very) High Level User Workflow
-#### Tenants
+#### Tenant
 1. Login to application.
 2. View details about their rented property e.g. Address, tenancy agreement start and end dates, etc.
 3. Pay required deposit amounts or view existing deposit details.
