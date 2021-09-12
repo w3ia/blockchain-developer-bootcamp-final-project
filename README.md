@@ -29,7 +29,7 @@ The solution will implement a single web application for both tenants and landlo
 1. Login to application.
 2. View details about their rented property e.g. Address, tenancy agreement start and end dates, etc.
 3. Pay required deposit amounts or view existing deposit details.
-4. Request for deposit to be released or renewed, depending on whether tenancy agreement is being ended or renewed.
+4. Request for deposit to be released or renewed (will require burning of existing deposit certificate and issuance of a new one), depending on whether tenancy agreement is being ended or renewed.
 5. Raise dispute or view existing/ongoing dispute.
 
 #### Landlord
