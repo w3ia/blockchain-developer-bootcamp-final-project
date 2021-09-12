@@ -1,7 +1,7 @@
 # Smart Tenancy Deposits
 ## Project Description
 ### Background
-In the UK, landlords must secure/protect any deposit taken from a tenant in a government-approved tenancy deposit scheme (TDP). TDPs are currently provided by approved third-party companies who can either hold the deposit on behalf on the tenant and landlord (custodial service) or provide insurance for the deposit, if it  is held by the landlord or agent (insurance-backed service). Furthermore, the TDP company is also responsible for handling any disputes that may arise between tenant and landlord during the returning of the deposit at the end of a tenancy agreement.
+In the UK, landlords must secure/protect any deposit taken from a tenant in a government-approved tenancy deposit scheme (TDP). TDPs are currently provided by approved third-party companies who can either hold the deposit on behalf on the tenant and landlord (custodial service) or provide insurance for the deposit if it  is held by the landlord or agent (insurance-backed service). Furthermore, the TDP company is also responsible for handling any disputes that may arise between tenant and landlord during the returning of the deposit at the end of a tenancy agreement.
 
 For furthe details on the TDP see [0]
 
@@ -22,7 +22,7 @@ The biggest challenges for both tenants and landlords/letting agents with curren
 ## Proposed Solution
 This project aims to implement a streamlined tenancy deposit service based on Ethereum smart contracts - "Smart Tenancy Deposits".
 
-The solution will implement a single web application for both tenants and lanlords to manage deposits and deposit agreements. There will also be an adjudication service to handle and resolve any disputes between landlord and tenant (in reality and in compliance with UK law, this would be the government approved/authorised third party which is providing this "smart tenancy deposit" service).
+The solution will implement a single web application for both tenants and lanlords to manage deposits and deposit agreements i.e. Via the use of smart contracts, the deposit will be protected by both the tenant and landlord wallets and any amount will not be withdrawable without approval from both parties. There will also be an adjudication service to handle and resolve any disputes between landlord and tenant (in reality and in compliance with UK law, this would be the government approved/authorised third party which is providing this "smart tenancy deposit" service).
 
 ### (Very) Highlevel User Workflow
 #### Tenants
@@ -36,8 +36,9 @@ The solution will implement a single web application for both tenants and lanlor
 1. Login to application.
 2. View details about all their properties.
 3. For any newly tenanted properties (including renewals), view the received deposit amount.
-4. For any 'end of tenancy' properties, view deposit releases and agree/disagree.
-5. Raise disputes or view existing/ongoing disputes.
+4. Issue deposit details/certificate to the tenant via a non-fungiable asset.
+5. For any 'end of tenancy' properties, view deposit releases and agree/disagree.
+6. Raise disputes or view existing/ongoing disputes.
 
 #### Adjudicator 
 1. Login to application
