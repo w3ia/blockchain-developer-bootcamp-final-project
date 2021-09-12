@@ -16,7 +16,7 @@ The biggest challenges for both tenants and landlords/letting agents with curren
 * Once a deposit is protected, the landlord or agent has 30 days to provide the tenant a list of information regarding the details of the protection including how much of the deposit has been protected, where it is protected, how the tenant can get the deposit back and how they can raise any disputes (for the full list of details see https://www.gov.uk/tenancy-deposit-protection/information-landlords-must-give-tenants). Failing to provide this information within the stated time can result in legal action against the **landlord**.
 
 
-#### For tenants
+#### For Tenants
 * Tenants must rely/trust the landlord or agent to protect their deposit correctly. It is also the tenants responsibility to check if the deposit has been protected correctly and raise a legal claim if it has not. 
 
 ## Proposed Solution
