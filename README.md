@@ -3,7 +3,7 @@
 ### Background
 In the UK, landlords must secure/protect any deposit taken from a tenant in a government-approved tenancy deposit scheme (TDP). TDPs are currently provided by approved third-party companies who can either hold the deposit on behalf of the tenant and landlord (custodial service) or provide insurance for the deposit if it  is held by the landlord or agent (insurance-backed service). Furthermore, the TDP company is also responsible for handling any disputes that may arise between tenant and landlord during the returning of the deposit at the end of a tenancy agreement.
 
-For further details on the TDP see [0]
+For further details on the TDP see https://www.gov.uk/tenancy-deposit-protection.
 
 ### Current Challenges
 
@@ -13,7 +13,7 @@ The biggest challenges for both tenants and landlords/letting agents with curren
 * Landlords must understand how to correctly protect a deposit and be aware of their legal responsibility.
   * Some landlords, in particular non-professional ones, will often delegate the deposit process to a letting agent for a fee and will have to trust the letting agent to correctly protect a deposit with a TDP.
 
-* Once a deposit is protected, the landlord or agent has 30 days to provide the tenant a list of information regarding the details of the protection including how much of the deposit has been protected, where it is protected, how the tenant can get the deposit back and how they can raise any disputes (For the full list of details see [1]). Failing to provide this information within the stated time can result in legal action against the **landlord**.
+* Once a deposit is protected, the landlord or agent has 30 days to provide the tenant a list of information regarding the details of the protection including how much of the deposit has been protected, where it is protected, how the tenant can get the deposit back and how they can raise any disputes (for the full list of details see https://www.gov.uk/tenancy-deposit-protection/information-landlords-must-give-tenants). Failing to provide this information within the stated time can result in legal action against the **landlord**.
 
 
 #### For tenants
@@ -51,6 +51,3 @@ The solution will implement a single web application for both tenants and landlo
 TBD
 
 -----
-[0] - https://www.gov.uk/tenancy-deposit-protection
-
-[1] - https://www.gov.uk/tenancy-deposit-protection/information-landlords-must-give-tenants
