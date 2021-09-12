@@ -19,29 +19,36 @@ The biggest challenges for both tenants and landlords/letting agents with curren
 #### For tenants
 * Tenants must rely/trust the landlord or agent to protect their deposit correctly. It is also the tenants responsibilty to check if the deposit has been protected correctly and raise a legal claim it if has not. 
 
-### Proposed Solution
+## Proposed Solution
 This project aims to implement a streamlined tenancy deposit service based on Ethereum smart contracts - "Smart Tenancy Deposits". The solution will implement a single web application for both tenants and lanlords to manage deposits and deposit agreements. There will also be an adjudication service to handle and resolve any disputes between landlord and tenant (in reality and in compliance with UK law, this would be the government approved/authorised third party which is providing this "smart tenancy deposit" service).
 
-## Solution - (Very) Highlevel User Workflow
-### Tenants
+### (Very) Highlevel User Workflow
+#### Tenants
 1. Login to application.
 2. View details about their rented property e.g. Address, tenancy agreement start and end dates, etc.
 3. Pay required deposit amounts or view existing deposit details.
 4. Request for deposit to be released or renewed, depending on whether tenancy agreement is being ended or renewed.
 5. Raise disputes or view existing/ongoing dispute.
 
-### Landlord
+#### Landlord
 1. Login to application.
 2. View details about all their properties.
 3. For any newly tenanted properties (including renewals), view the received deposit amount.
 4. For any 'end of tenancy' properties, view deposit releases and agree/disagree.
 5. Raise disputes or view existing/ongoing disputes.
 
-### Adjudicator 
+#### Adjudicator 
 1. Login to application
 2. View disputes.
 3. Resolve disputes.
 
+
+### Technical Workflow/Design
+
+TBD
+
+-----
 [0] - https://www.gov.uk/tenancy-deposit-protection
+
 [1] - https://www.gov.uk/tenancy-deposit-protection/information-landlords-must-give-tenants
 
