@@ -22,7 +22,7 @@ The biggest challenges for both tenants and landlords/letting agents with curren
 ## Proposed Solution
 This project aims to implement a streamlined tenancy deposit service based on Ethereum smart contracts - "Smart Tenancy Deposits".
 
-The solution will implement a single web application for both tenants and landlords to manage deposits and deposit agreements i.e. Via the use of smart contracts, the deposit will be protected by both the tenant and landlord wallets and any amount will not be withdrawable without approval from both parties. There will also be an adjudication service to handle and resolve any disputes between landlord and tenant (in reality and in compliance with UK law, this would be the government approved/authorised third party which is providing this "smart tenancy deposit" service).
+The solution will implement a single web application/dapp for both tenants and landlords to manage deposits and deposit agreements i.e. Via the use of smart contracts, the deposit will be protected by both the tenant and landlord wallets and any amount will not be withdrawable without approval from both parties. There will also be an adjudication service to handle and resolve any disputes between landlord and tenant (in reality and in compliance with UK law, this would be the government approved/authorised third party which is providing this "smart tenancy deposit" service).
 
 ### (Very) High Level User Workflow
 #### Tenant
