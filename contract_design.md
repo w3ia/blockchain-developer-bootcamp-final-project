@@ -1,7 +1,4 @@
-# Contract Design **v0.1**
-
-## Contract **TenancyDeposit** {
-
+# **TenancyDeposit** Contract Design **v0.1**
 ### **State Variables**
 ---
 
