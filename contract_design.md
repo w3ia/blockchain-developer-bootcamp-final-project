@@ -100,7 +100,8 @@ Event depositReleased();
   * require(DepositPaymentState.FullyPaid AND (depositPaid = depositRequired)
 
 *//Other State Modifiers - assume modifier to check each state*
-  
+ 
+ --- 
   ### **Functions**
 function **depositPartial()** public payable isTenant() tenancyActive() isUndisputed() isUnpaid {}
 
