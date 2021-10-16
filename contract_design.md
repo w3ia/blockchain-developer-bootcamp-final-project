@@ -74,14 +74,14 @@
   }
 ---
 ### **Events**
-event partialPaymentMade();
-event fullPaymentMade();
-event depositIdGenerated();
-event agreementEnded();
-event agreementRenewed();
-Event disupteRaised();
-Event disputeResolved();
-Event depositReleased();
+* event partialPaymentMade();
+* event fullPaymentMade();
+* event depositIdGenerated();
+* event agreementEnded();
+* event agreementRenewed();
+* event disupteRaised();
+* event disputeResolved();
+* event depositReleased();
 
 ---
 ### **Modifiers**
