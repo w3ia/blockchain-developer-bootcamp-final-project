@@ -29,7 +29,7 @@ The solution will implement a single web application/dapp for both tenants and l
 * Current deployed contract between landlords and tenants is 1-to-Many. IRL the contract would support multiple landlords.
 * Deposit are stated in ether.
 * A tenant is allowed to pay a deposit on more than one property e.g. Commercial tenants.
-* A landlord can (re)create an agreement for an existing property, as long as the existing agreement is either in a ended or active state.
+* A landlord can (re)create an agreement for an existing property, as long as the existing agreement is either in a created(unpaid) or ended state.
 * A tenant cannot pay a deposit on a property that does not exist.
 * A tenant cannot withdraw a deposit that has not been released.
 * A landlord cannot pay a deposit on a property they own i.e. Landlord cannot become a tenant of their own property.
