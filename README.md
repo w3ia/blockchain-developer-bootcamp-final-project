@@ -29,7 +29,16 @@ https://condescending-mirzakhani-b803b5.netlify.app
 
 **Contract is deployed to the Rinkeby testnet**
 
-**Please Note:** You will **only** be able to interact with the app as a "Tenant", as "Landlord" access is limited to the contract owner. For **full** interaction, please see the [**Local Setup**](https://github.com/w3ia/blockchain-developer-bootcamp-final-project#local-setup) section below for details on deploying and accessing the application locally. Also see the [**Video Walkthrough**](https://github.com/w3ia/blockchain-developer-bootcamp-final-project#video-walkthrough) section below for a full demo of the app.
+**Please Note:** You will **only** be able to interact with the app as a "Tenant", as "Landlord" access is limited to the contract owner. 
+
+As a Tenant you will be able to:
+* Connect your wallet via the Tenants page (/tenants.html).
+* Refresh the available properties list.
+* Refresh deposits list.
+* Make a payment (pay deposit) for an available property.
+* See the property move to the deposits list and its status change to "Active", once the payment completes.
+
+For **full** interaction, please see the [**Local Setup**](https://github.com/w3ia/blockchain-developer-bootcamp-final-project#local-setup) section below for details on deploying and accessing the application locally. Also see the [**Video Walkthrough**](https://github.com/w3ia/blockchain-developer-bootcamp-final-project#video-walkthrough) section below for a full demo of the app.
 
 ## Video Walkthrough
 
