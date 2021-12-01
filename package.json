@@ -1,0 +1,37 @@
+{
+  "name": "blockchain-developer-bootcamp-final-project",
+  "version": "1.0.0",
+  "description": "Final Project for Consensys Blockchain Developer Bootcamp 2021",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test",
+    "contracts": "contracts",
+    "client": "client"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server ./client -a localhost -p 3000 -o -s"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/w3ia/blockchain-developer-bootcamp-final-project.git"
+  },
+  "author": "w3ai.x",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/w3ia/blockchain-developer-bootcamp-final-project/issues"
+  },
+  "homepage": "https://github.com/w3ia/blockchain-developer-bootcamp-final-project#readme",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.3.3"
+  },
+  "devDependencies": {
+    "@truffle/hdwallet-provider": "^1.7.0",
+    "bignumber.js": "^7.2.1",
+    "dotenv": "^10.0.0",
+    "ganache-cli": "^6.12.2",
+    "http-server": "^14.0.0",
+    "truffle": "^5.4.22",
+    "web3": "^1.5.3"
+  }
+}

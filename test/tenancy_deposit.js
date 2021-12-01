@@ -1,147 +1,312 @@
-const  SimpleTenancyDeposit = artifacts.require("TenancyDeposit");
-const { Console } = require("console");
+const  TenancyDeposit = artifacts.require("TenancyDeposit");
 const { catchRevert } = require("./exceptionsHelpers.js");
+const { Console } = require('console');
+const BigNumber = require('bignumber.js');
 
-contract("SimpleTenancyDeposit", function (accounts) {
-  const [owner, landlord, tenant] = accounts;
+// Set to true for gas estimation output
+let estimateGas = false;
+let amountOfGas = 0;
 
-  const depositRequired = web3.utils.toWei('2', 'ether');
-  const fullDeposit = web3.utils.toWei('3', 'ether');
-  const partDeposit = web3.utils.toWei('1', 'ether');
+contract("TenancyDeposit", function (accounts) {
+  const [landlord, tenantAlice, tenantBob] = accounts;
 
-  let instance;
+  const agreementState = {
+    CREATED: "1",
+    ACTIVE: "2",
+    RELEASED: "3",
+    ENDED: "4"
+  }
+
+  const propertyOneId = "10";
+  const propertyOneDeposit = web3.utils.toWei('0.5', 'ether');
+  const PropertyOneFullDeposit = propertyOneDeposit;
+  const propertyOneDeductions = web3.utils.toWei('0.1', 'ether');
+
+  const propertyTwoId = "20";
+  const propertyTwoDeposit = web3.utils.toWei('1', 'ether');
+  const PropertyTwoFullDeposit = propertyTwoDeposit;
+  const propertyTwoDeductions = web3.utils.toWei('0.5', 'ether');
+
+  const incorrectDeposit = web3.utils.toWei('0.1', 'ether');
+  const overDeductions = web3.utils.toWei('2', 'ether');
+  const zeroDeductions = web3.utils.toWei('0', 'ether');
+  const zeroAddress = "0x0000000000000000000000000000000000000000";
+
+  let tenancyDeposit;
 
   beforeEach(async () => {
-    instance = await SimpleTenancyDeposit.new();
-    await instance.setLandlordAddress(landlord, { from: owner });
-    await instance.setTenantAddress(tenant, { from: landlord });
-    await instance.setDepositRequired(depositRequired, { from: landlord });
+    tenancyDeposit = await TenancyDeposit.new();
+  });
+
+  it("has correct landlord/owner", async () => {
+    expect(await tenancyDeposit.landlord.call()).to.equal(landlord);
+  });
+
+  describe("Deposit agreement - creation", () => {
+
+    it("should log a DepositAgreementCreated event when a deposit is successfully made", async () => {
+      const expectedEventOneResult = { 
+        propertyId: propertyOneId,
+        tenantAddress: zeroAddress,  
+        depositAmount: propertyOneDeposit, 
+        agreementState: agreementState.CREATED
+      };
+
+      if(estimateGas) {
+        amountOfGas = await tenancyDeposit.createDepositAgreement.estimateGas(propertyOneId, propertyOneDeposit, { from: landlord });
+        console.log("amountOfGas for createDepositAgreement: ", amountOfGas);
+      }
+
+      const resultOne = await tenancyDeposit.createDepositAgreement(propertyOneId, propertyOneDeposit, { from: landlord });
+      expect(resultOne.logs[0].args.landlord).to.equal(landlord);
+      expect(resultOne.logs[0].args.propertyId.toString()).to.equal(expectedEventOneResult.propertyId);
+      expect(resultOne.logs[0].args.depositAmount.toString()).to.equal(expectedEventOneResult.depositAmount);
+      expect(resultOne.logs[0].args.tenant).to.equal(expectedEventOneResult.tenantAddress);
+      expect(resultOne.logs[0].args.agreementState.toString()).to.equal(expectedEventOneResult.agreementState);
+
+      const expectedEventTwoResult = { 
+        propertyId: propertyTwoId,
+        tenantAddress: zeroAddress,  
+        depositAmount: propertyTwoDeposit, 
+        agreementState: agreementState.CREATED
+      };
+
+      const resultTwo = await tenancyDeposit.createDepositAgreement(propertyTwoId, propertyTwoDeposit, { from: landlord });
+      expect(resultTwo.logs[0].args.landlord).to.equal(landlord);
+      expect(resultTwo.logs[0].args.propertyId.toString()).to.equal(expectedEventTwoResult.propertyId);
+      expect(resultTwo.logs[0].args.depositAmount.toString()).to.equal(expectedEventTwoResult.depositAmount);
+      expect(resultTwo.logs[0].args.tenant).to.equal(expectedEventTwoResult.tenantAddress);
+      expect(resultTwo.logs[0].args.agreementState.toString()).to.equal(expectedEventTwoResult.agreementState);
+    });
+
+    it("should return existing deposit agreement for given property", async () => {
+      const expectedEventTwoResult = { 
+        propertyId: propertyTwoId,
+        tenantAddress: zeroAddress,  
+        depositAmount: propertyTwoDeposit, 
+        agreementState: agreementState.CREATED
+      };
+  
+      await tenancyDeposit.createDepositAgreement(propertyTwoId, propertyTwoDeposit, { from: landlord });
+
+      if(estimateGas) {
+        amountOfGas = await tenancyDeposit.getDeposit.estimateGas(propertyTwoId, { from: landlord });
+        console.log("amountOfGas for getDeposit: ", amountOfGas);
+      }
+  
+      const resultTwo = await tenancyDeposit.getDeposit(propertyTwoId, { from: landlord });
+      expect(resultTwo.propertyId.toString()).to.equal(expectedEventTwoResult.propertyId);
+      expect(resultTwo.tenant).to.equal(expectedEventTwoResult.tenantAddress);
+      expect(resultTwo.depositAmount.toString()).to.equal(expectedEventTwoResult.depositAmount);
+      expect(resultTwo.agreementState.toString()).to.equal(expectedEventTwoResult.agreementState);
+    });
+
+    it("should error if landlord tries to create agreement for property that already has an active agreement", async () => {
+      await tenancyDeposit.createDepositAgreement(propertyOneId, propertyOneDeposit, { from: landlord });
+      await tenancyDeposit.payDeposit(propertyOneId, { from: tenantAlice, value: PropertyOneFullDeposit });
+
+      await catchRevert(tenancyDeposit.createDepositAgreement(propertyOneId, propertyOneDeposit, { from: landlord }));
+    });
+
+    it("should error if attempt is made to get a non-existing deposit agreement", async () => {
+      await catchRevert(tenancyDeposit.getDeposit(propertyOneId, { from: landlord }));
+     });
+  });
+
+  describe("Deposit agreement - payment", () => {
+
+    it("should log a DepositPaid event when a deposit is successfully paid", async () => {
+      const expectedEventOneResult = { 
+        tenantAddress: tenantAlice,
+        propertyId: propertyOneId,  
+        depositAmount: propertyOneDeposit, 
+        agreementState: agreementState.ACTIVE
+      };
+      
+      await tenancyDeposit.createDepositAgreement(propertyOneId, propertyOneDeposit, { from: landlord });
+
+      if(estimateGas) {
+        amountOfGas = await tenancyDeposit.payDeposit.estimateGas(propertyOneId, { from: tenantAlice, value: PropertyOneFullDeposit });
+        console.log("amountOfGas payDeposit: ", amountOfGas);
+      }
+
+      const resultOne = await tenancyDeposit.payDeposit(propertyOneId, { from: tenantAlice, value: PropertyOneFullDeposit });
+      expect(resultOne.logs[0].args.tenant).to.equal(expectedEventOneResult.tenantAddress);
+      expect(resultOne.logs[0].args.propertyId.toString()).to.equal(expectedEventOneResult.propertyId);
+      expect(resultOne.logs[0].args.depositAmount.toString()).to.equal(expectedEventOneResult.depositAmount);
+      expect(resultOne.logs[0].args.agreementState.toString()).to.equal(expectedEventOneResult.agreementState);
+
+
+      const expectedEventTwoResult = { 
+        tenantAddress: tenantBob,
+        propertyId: propertyTwoId,  
+        depositAmount: propertyTwoDeposit, 
+        agreementState: agreementState.ACTIVE
+      };
+      
+      await tenancyDeposit.createDepositAgreement(propertyTwoId, propertyTwoDeposit, { from: landlord });
+
+      const resultTwo = await tenancyDeposit.payDeposit(propertyTwoId, { from: tenantBob, value: PropertyTwoFullDeposit });
+      expect(resultTwo.logs[0].args.tenant).to.equal(expectedEventTwoResult.tenantAddress);
+      expect(resultTwo.logs[0].args.propertyId.toString()).to.equal(expectedEventTwoResult.propertyId);
+      expect(resultTwo.logs[0].args.depositAmount.toString()).to.equal(expectedEventTwoResult.depositAmount);
+      expect(resultTwo.logs[0].args.agreementState.toString()).to.equal(expectedEventTwoResult.agreementState);
+    });
+
+    it("should error if deposit paid is less than deposit required", async () => {
+      await tenancyDeposit.createDepositAgreement(propertyOneId, propertyOneDeposit, { from: landlord });
+      await catchRevert(tenancyDeposit.payDeposit(propertyOneId, { from: tenantAlice, value: incorrectDeposit }));
+    });
+
+    it("should error if tenant tries to pay deposit for agreement that is not in created state", async () => {
+      await catchRevert(tenancyDeposit.payDeposit(propertyOneId, { from: tenantAlice, value: PropertyOneFullDeposit }));
+    });
+
+    it("should error if tenant tries to pay deposit for agreement that is already active", async () => {
+      await tenancyDeposit.createDepositAgreement(propertyOneId, propertyOneDeposit, { from: landlord });
+      await tenancyDeposit.payDeposit(propertyOneId, { from: tenantAlice, value: PropertyOneFullDeposit });
+      await catchRevert(tenancyDeposit.payDeposit(propertyOneId, { from: tenantAlice, value: PropertyOneFullDeposit }));
+    });
+
+    it("should error if landlord tries to pay deposit", async () => {
+      await tenancyDeposit.createDepositAgreement(propertyOneId, propertyOneDeposit, { from: landlord });
+      await catchRevert(tenancyDeposit.payDeposit(propertyOneId, { from: landlord, value: PropertyOneFullDeposit }));
+    });
   });
 
 
-  it("has correct owner", async () => {
-    assert.equal(await instance.owner.call(), owner, "owner is not correct");
+  describe("Deposit agreement - release", () => {
+
+    it("should return approved deposit amount when landlord successfully approves full deposit release", async () => {
+      await tenancyDeposit.createDepositAgreement(propertyTwoId, propertyTwoDeposit, { from: landlord });
+      await tenancyDeposit.payDeposit(propertyTwoId, { from: tenantBob, value: PropertyTwoFullDeposit });
+
+      if(estimateGas) {
+        amountOfGas = await tenancyDeposit.approveDepositReturn.estimateGas(propertyTwoId, zeroDeductions, { from: landlord});
+        console.log("amountOfGas approveDepositReturn: ", amountOfGas);
+      }
+
+      await tenancyDeposit.approveDepositReturn(propertyTwoId, zeroDeductions, { from: landlord});
+
+      const deposit = await tenancyDeposit.getDeposit(propertyTwoId, { from: landlord});
+      expect(deposit.returnAmount.toString()).to.equal(PropertyTwoFullDeposit.toString());
+      expect(deposit.agreementState.toString()).to.equal(agreementState.RELEASED);
+    });
+
+    it("should return approved deposit amount when landlord successfully approves part deposit release", async () => {
+      await tenancyDeposit.createDepositAgreement(propertyTwoId, propertyTwoDeposit, { from: landlord });
+      await tenancyDeposit.payDeposit(propertyTwoId, { from: tenantBob, value: PropertyTwoFullDeposit });
+      await tenancyDeposit.approveDepositReturn(propertyTwoId, propertyTwoDeductions, { from: landlord});
+
+      const deposit = await tenancyDeposit.getDeposit(propertyTwoId, { from: landlord});
+      expect(deposit.returnAmount.toString()).to.equal(propertyTwoDeductions.toString());
+      expect(deposit.agreementState.toString()).to.equal(agreementState.RELEASED);
+    });
+
+    it("should error if approved deductions are greater than deposit amount", async () => {
+      await tenancyDeposit.createDepositAgreement(propertyTwoId, propertyTwoDeposit, { from: landlord });
+      await tenancyDeposit.payDeposit(propertyTwoId, { from: tenantBob, value: PropertyTwoFullDeposit });
+  
+      await catchRevert(tenancyDeposit.approveDepositReturn(propertyTwoId, overDeductions, { from: landlord }));
+    });
+
+    it("should error if attempt is made by non-landlord to approve deposit return", async () => {
+      await tenancyDeposit.createDepositAgreement(propertyTwoId, propertyTwoDeposit, { from: landlord });
+      await tenancyDeposit.payDeposit(propertyTwoId, { from: tenantBob, value: PropertyTwoFullDeposit });
+  
+      await catchRevert(tenancyDeposit.approveDepositReturn(propertyTwoId, zeroDeductions, { from: tenantBob }));
+    });
+
+    it("should error if attempt is made to approve deposit release of non-paid agreement", async () => {
+      await tenancyDeposit.createDepositAgreement(propertyTwoId, propertyTwoDeposit, { from: landlord });
+      await catchRevert(tenancyDeposit.approveDepositReturn(propertyTwoId, zeroDeductions, { from: landlord }));
+    });
+
+    it("should error if attempt is made to re-release deposit that has already been released", async () => {
+      await tenancyDeposit.createDepositAgreement(propertyTwoId, propertyTwoDeposit, { from: landlord });
+      await tenancyDeposit.payDeposit(propertyTwoId, { from: tenantBob, value: PropertyTwoFullDeposit });
+      await tenancyDeposit.approveDepositReturn(propertyTwoId, zeroDeductions, { from: landlord });
+
+      await catchRevert(tenancyDeposit.approveDepositReturn(propertyTwoId, zeroDeductions, { from: landlord }));
+    });
+  });
+
+  describe("Deposit agreement - withdrawl", () => {
+
+    it("should log a DepositReturned event when deposit is successfully returned", async () => {
+      const expectedEventOneResult = { 
+        landlordAddress: landlord, 
+        propertyId: propertyOneId, 
+        returnedAmount: PropertyOneFullDeposit,
+        tenantAddress: tenantAlice,
+        agreementState: agreementState.ENDED
+      };
+
+      await tenancyDeposit.createDepositAgreement(propertyOneId, propertyOneDeposit, { from: landlord });
+      await tenancyDeposit.payDeposit(propertyOneId, { from: tenantAlice, value: PropertyOneFullDeposit });
+      await tenancyDeposit.approveDepositReturn(propertyOneId, zeroDeductions, { from: landlord })
+
+      if(estimateGas) {
+        amountOfGas = await tenancyDeposit.withdrawDeposit.estimateGas(propertyOneId, { from: tenantAlice });
+        console.log("amountOfGas withdrawDeposit: ", amountOfGas);
+      }
+
+      const resultOne = await tenancyDeposit.withdrawDeposit(propertyOneId, { from: tenantAlice });
+        expect(resultOne.logs[0].args.landlord).to.equal(expectedEventOneResult.landlordAddress);
+        expect(resultOne.logs[0].args.propertyId.toString()).to.equal(expectedEventOneResult.propertyId);
+        expect(resultOne.logs[0].args.returnedAmount.toString()).to.equal(expectedEventOneResult.returnedAmount);
+        expect(resultOne.logs[0].args.tenant).to.equal(expectedEventOneResult.tenantAddress);
+        expect(resultOne.logs[0].args.agreementState.toString()).to.equal(expectedEventOneResult.agreementState);
+    });
+
+    it("should error if attempt is made by non-tenant or incorrect tenant to withdraw deposit", async () => {
+      await tenancyDeposit.createDepositAgreement(propertyTwoId, propertyTwoDeposit, { from: landlord });
+      await tenancyDeposit.payDeposit(propertyTwoId, { from: tenantBob, value: PropertyTwoFullDeposit });
+      await tenancyDeposit.approveDepositReturn(propertyTwoId, zeroDeductions, { from: landlord })
+
+      await catchRevert(tenancyDeposit.withdrawDeposit(propertyTwoId, { from: tenantAlice }));
+    });
+
+    it("should error if attempt is made to withdraw deposit before it has been released", async () => {
+      await tenancyDeposit.createDepositAgreement(propertyOneId, propertyOneDeposit, { from: landlord });
+      await tenancyDeposit.payDeposit(propertyOneId, { from: tenantAlice, value: PropertyOneFullDeposit });
+
+      await catchRevert(tenancyDeposit.withdrawDeposit(propertyOneId, { from: tenantAlice }));
+    });
+
+    it("should error if attempt is made to withdraw deposit that has already been withdrawn", async () => {
+      await tenancyDeposit.createDepositAgreement(propertyOneId, propertyOneDeposit, { from: landlord });
+      await tenancyDeposit.payDeposit(propertyOneId, { from: tenantAlice, value: PropertyOneFullDeposit });
+      await tenancyDeposit.approveDepositReturn(propertyOneId, zeroDeductions, { from: landlord });
+      await tenancyDeposit.withdrawDeposit(propertyOneId, { from: tenantAlice });
+      
+      await catchRevert(tenancyDeposit.withdrawDeposit(propertyOneId, { from: tenantAlice }));
+    });
   });
 
 
-  it("has correct landlord", async () => {
-    assert.equal(await instance.landlord.call(), landlord, "landlord is not correct");
-  });
+  describe("Deposit agreement - contract balance", () => {
+
+    it("should return balance of all deposits", async () => {
+      await tenancyDeposit.createDepositAgreement(propertyOneId, propertyOneDeposit, { from: landlord });
+      await tenancyDeposit.payDeposit(propertyOneId, { from: tenantAlice, value: PropertyOneFullDeposit });
 
 
-  it("has correct tenant", async () => {
-    assert.equal(await instance.tenant.call(), tenant, "tenant is not correct");
-  });
+      await tenancyDeposit.createDepositAgreement(propertyTwoId, propertyTwoDeposit, { from: landlord });
+      await tenancyDeposit.payDeposit(propertyTwoId, { from: tenantBob, value: PropertyTwoFullDeposit });
 
+      if(estimateGas) {
+        amountOfGas = await tenancyDeposit.depositBalances.estimateGas({ from: landlord });
+        console.log("amountOfGas depositBalances: ", amountOfGas);
+      }
 
-  it("should error when non-landlord tries to add tenant", async () => {
-    await catchRevert(instance.setTenantAddress(tenant, { from: owner }));
-  });
+      const balance = await tenancyDeposit.depositBalances({ from: landlord });
 
+      expect(balance.toString()).to.equal(web3.utils.toWei('1.5', 'ether'));
+    });
 
-  it("has correct deposit required", async () => {
-    const result = await instance.setDepositRequired(depositRequired, { from: landlord });
-    const depositSet = result.logs[0].args.depositRequired.toString();
-
-    assert.equal(depositSet, depositRequired, "deposit required amount is not correct");
-  });
-
-
-  it("should error when non-landlord tries to set deposit required", async () => {
-    await catchRevert(instance.setDepositRequired(depositRequired, { from: owner }));
-  });
-
-
-  it("should log a deposit event when a deposit is made", async () => {
-    const result = await instance.payDeposit({ from: tenant, value: fullDeposit });
-
-    const expectedEventResult = { tenantAddress: tenant, amount: depositRequired };
-
-    const logTenantAddress = result.logs[0].args.tenant;
-    const logDepositAmount = result.logs[0].args.depositAmount.toString();
-
-    assert.equal(
-      expectedEventResult.tenantAddress,
-      logTenantAddress,
-      "LogDepositMade event tenant address property not emitted, check deposit method"
-    );
-
-    assert.equal(
-      expectedEventResult.amount,
-      logDepositAmount,
-      "LogDepositMade event amount property not emitted, check deposit method"
-    );
-  });
-
-
-  it("should refund correct amount when deposit is overpaid", async () => {
-    let tenantBalanceBefore = await web3.eth.getBalance(tenant);
-    tenantBalanceBefore = web3.utils.fromWei(tenantBalanceBefore, 'ether');
-
-    const result = await instance.payDeposit({ from: tenant, value: fullDeposit });
-
-    let tenantBalanceAfter = await web3.eth.getBalance(tenant);
-    tenantBalanceAfter = web3.utils.fromWei(tenantBalanceAfter, 'ether');
-    
-    // work out gas
-    const resultTx = await web3.eth.getTransaction(result.tx);
-    const gasUsed = result.receipt.gasUsed;
-    console.log("Gas used: ", gasUsed);
-    console.log("Gas price (wei): ", resultTx.gasPrice);
-    let gasCost = resultTx.gasPrice * gasUsed;
-    gasCost =  web3.utils.fromWei(gasCost.toString(), 'ether');
-    console.log("Gas cost (eth): ", gasCost);
-
-    // work out actual cost (gas cost + deposit)
-    const ActualCost = Number(gasCost) + Number(web3.utils.fromWei(depositRequired.toString(), 'ether'));
-
-    const expectedCost = Number(tenantBalanceBefore).toFixed(4) - Number(tenantBalanceAfter).toFixed(4);
-
-    assert.equal(Number(expectedCost).toFixed(4), Number(ActualCost).toFixed(4), "tenant's balance should be reduced by the deposit amount");
-  });
-
-
-  it("should error if deposit paid is less than required", async () => {
-    await catchRevert(instance.payDeposit({ from: tenant, value: partDeposit }));
-  });
-
-
-  it("should error if deposit is paid by non-tenant", async () => {
-    await catchRevert(instance.payDeposit({ from: landlord, value: fullDeposit }));
-  });
-
-
-  it("should error if tenant tries to pay deposit more than once", async () => {
-    await instance.payDeposit({ from: tenant, value: fullDeposit });
-    await catchRevert(instance.payDeposit({ from: tenant, value: fullDeposit }));
-  });
-
-
-  it("should log a deposit returned event when a deposit is returned", async () => {
-    await instance.payDeposit({ from: tenant, value: fullDeposit });
-    const result = await instance.returnDeposit({ from: landlord });
-    const expectedEventResult = { landlordAddress: landlord, tenantAddress: tenant, amount: depositRequired };
-
-    const logLandlordAddress = result.logs[0].args.landlord;
-    const logTenantAddress = result.logs[0].args.tenant;
-    const logReturnedAmount = result.logs[0].args.returnedAmount.toString();
-
-    assert.equal(
-      expectedEventResult.landlordAddress,
-      logLandlordAddress,
-      "LogDepositMade event landlord address property not emitted, check deposit method"
-    );
-
-    assert.equal(
-      expectedEventResult.tenantAddress,
-      logTenantAddress,
-      "LogDepositMade event tenant address property not emitted, check deposit method"
-    );
-
-    assert.equal(
-      expectedEventResult.amount,
-      logReturnedAmount,
-      "LogDepositMade event deposit returned property not emitted, check deposit method"
-    );
+    it("should error if non-landlord attempt to get balance of all deposits", async () => {
+      await catchRevert(tenancyDeposit.depositBalances({ from: tenantAlice }));
+    });
   });
 });

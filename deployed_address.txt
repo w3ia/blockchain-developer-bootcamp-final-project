@@ -1,0 +1,4 @@
+Network: Rinkeby
+Contract Address: 0x32F80804609a8FDF729Fec77440368C89B277aE8
+
+Etherscan URL: https://rinkeby.etherscan.io/address/0x32F80804609a8FDF729Fec77440368C89B277aE8
