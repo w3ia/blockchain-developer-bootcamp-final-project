@@ -1,11 +1,7 @@
 ## Avoiding Common Attacks
 
-* Proper setting of visibility for functions - [SWC-100](https://swcregistry.io/docs/SWC-100): 
-  * ``external`` for functions that are only called by externally.
-  * ``public`` for functions that are called both internally and externally.
-  * ``payable`` for function that receives ETH payment.
-  * ``internal`` and ``private`` for functions that are used within the contract.
-  
+* Proper setting of visibility for functions - [SWC-100](https://swcregistry.io/docs/SWC-100).
+* Propert setting of visibility for state variables [SWC-108](https://swcregistry.io/docs/SWC-108).
 * Using a specific pragma compile - Solidity 0.8.0 is used and not floating pragma - [SWC-103](https://swcregistry.io/docs/SWC-103).
 * Low-level call return value is checked to handle the possibility that the call might fail - [SWC-104](https://swcregistry.io/docs/SWC-104).
 * Use ``require`` to check sender's balances and allowances, where applicable.
