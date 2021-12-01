@@ -14,8 +14,9 @@ The solution will implement a single web application/dapp for both tenants and l
 
 #### Landlord
 1. Login to application.
-2. View details about all their properties.
-3. For any newly tenanted properties (including renewals), view the received deposit amount.
+2. View agreementdetails about all their properties.
+3. Add new deposit agreements.
+4. For any newly tenanted properties (including renewals), view the received deposit amount.
 5. For any 'end of tenancy' properties, make deductions and deposit releases.
 
 #### Tenant
