@@ -1,21 +1,23 @@
 {
   "name": "blockchain-developer-bootcamp-final-project",
   "version": "1.0.0",
-  "description": "In the UK, landlords must secure/protect any deposit taken from a tenant in a government-approved tenancy deposit scheme (TDP). TDPs are currently provided by approved third-party companies who can either hold the deposit on behalf of the tenant and landlord (custodial service) or provide insurance for the deposit if it  is held by the landlord or agent (insurance-backed service). Furthermore, the TDP company is also responsible for handling any disputes that may arise between tenant and landlord during the returning of the deposit at the end of a tenancy agreement.",
+  "description": "Final Project for Consensys Blockchain Developer Bootcamp 2021",
   "main": "truffle-config.js",
   "directories": {
-    "doc": "docs",
-    "test": "test"
+    "test": "test",
+    "contracts": "contracts",
+    "client": "client"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server ./client -a localhost -p 3000 -o -s"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/w3ia/blockchain-developer-bootcamp-final-project.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "w3ai.x",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/w3ia/blockchain-developer-bootcamp-final-project/issues"
   },
@@ -24,6 +26,12 @@
     "@openzeppelin/contracts": "^4.3.3"
   },
   "devDependencies": {
-    "truffle": "^5.4.21"
+    "@truffle/hdwallet-provider": "^1.7.0",
+    "bignumber.js": "^7.2.1",
+    "dotenv": "^10.0.0",
+    "ganache-cli": "^6.12.2",
+    "http-server": "^14.0.0",
+    "truffle": "^5.4.22",
+    "web3": "^1.5.3"
   }
 }

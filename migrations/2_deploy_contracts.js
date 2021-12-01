@@ -1,5 +1,5 @@
-var SimpleTenancyDeposit = artifacts.require("./TenancyDeposit.sol");
+var TenancyDeposit = artifacts.require("./TenancyDeposit.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(SimpleTenancyDeposit);
+  deployer.deploy(TenancyDeposit);
 };
