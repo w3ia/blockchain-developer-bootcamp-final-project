@@ -1,4 +1,4 @@
-# Smart Tenancy Deposits
+# Simple Tenancy Deposits
 ## Project Description
 ### Background
 In the UK, landlords must secure/protect any deposit taken from a tenant in a government-approved tenancy deposit scheme (TDP). TDPs are currently provided by approved third-party companies who can either hold the deposit on behalf of the tenant and landlord (custodial service) or provide insurance for the deposit if it  is held by the landlord or agent (insurance-backed service). Furthermore, the TDP company is also responsible for handling any disputes that may arise between tenant and landlord during the returning of the deposit at the end of a tenancy agreement.
@@ -6,7 +6,7 @@ In the UK, landlords must secure/protect any deposit taken from a tenant in a go
 For further details on the TDP see https://www.gov.uk/tenancy-deposit-protection.
 
 ### Proposed Solution
-This project aims to implement a streamlined tenancy deposit service based on Ethereum smart contracts - "Smart Tenancy Deposits".
+This project aims to implement a streamlined tenancy deposit service based on Ethereum smart contracts - "Simple Tenancy Deposits".
 
 The solution will implement a single web application/dapp for both tenants and landlords to manage deposits and deposit agreements.
 
