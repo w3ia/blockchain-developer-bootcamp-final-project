@@ -27,6 +27,8 @@ The solution will implement a single web application/dapp for both tenants and l
 ## Deployed DApp
 https://condescending-mirzakhani-b803b5.netlify.app
 
+**Contract is deployed to the Rinkeby testnet**
+
 **Please Note:** You will **only** be able to interact with the app as a "Tenant", as "Landlord" access is limited to the contract owner. For **full** interaction, please see the **Local Setup** section below for details on deploying and accessing the application locally. Also see the **Video Walkthrough** section below for a full demo of the app.
 
 ## Video Walkthrough
