@@ -29,7 +29,7 @@ https://condescending-mirzakhani-b803b5.netlify.app
 
 **Contract is deployed to the Rinkeby testnet**
 
-**Please Note:** You will **only** be able to interact with the app as a "Tenant", as "Landlord" access is limited to the contract owner. For **full** interaction, please see the **Local Setup** section below for details on deploying and accessing the application locally. Also see the **Video Walkthrough** section below for a full demo of the app.
+**Please Note:** You will **only** be able to interact with the app as a "Tenant", as "Landlord" access is limited to the contract owner. For **full** interaction, please see the [**Local Setup**](https://github.com/w3ia/blockchain-developer-bootcamp-final-project#local-setup) section below for details on deploying and accessing the application locally. Also see the [**Video Walkthrough**](https://github.com/w3ia/blockchain-developer-bootcamp-final-project#video-walkthrough) section below for a full demo of the app.
 
 ## Video Walkthrough
 
@@ -99,7 +99,7 @@ To run locally, please follow these instructions:
 8. Once the contract(s) have been migrated to test/access the front-end:
 * From the ``truffle migrate`` output, get the **contract address** of the **TenancyDeposit** deployment and update **CONTRACT_ADDRESS** constant in the ``client/src/js/utils/constants.js`` file with this contract address.
 * From the project root, run ``npm start``. This will open a browser window to http://localhost:3000.
-* To interact with the app, ensure Metamask is connected to the **Localhost 8545** network, and use **account [0]** imported in step 4 above for Landlord and **account[1]** imported in step 4 above for Tenant (For full demo usage, please see the **Video Walkthrough** section above.)
+* To interact with the app, ensure Metamask is connected to the **Localhost 8545** network, and use **account [0]** imported in step 4 above for Landlord and **account[1]** imported in step 4 above for Tenant (For full demo usage, please see the [**Video Walkthrough**](https://github.com/w3ia/blockchain-developer-bootcamp-final-project#video-walkthrough) section above.)
 
 ## Ethereum address for NFT certificate
 0x5090cBC622Dc56770Ce07940aE5B48e43Dab9251
