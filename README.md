@@ -33,6 +33,7 @@ The solution will implement a single web application/dapp for both tenants and l
 * A tenant cannot pay a deposit on a property that does not exist.
 * A tenant cannot withdraw a deposit that has not been released.
 * A landlord cannot pay a deposit on a property they own i.e. Landlord cannot become a tenant of their own property.
+* Contract does not implement withdrawls for landlords - the implementation would be the same as the implemented withdrawl for tenants.
 
 ## Deployed App
 **Public URL:** **https://condescending-mirzakhani-b803b5.netlify.app**
