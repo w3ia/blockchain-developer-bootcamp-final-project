@@ -5,55 +5,99 @@ In the UK, landlords must secure/protect any deposit taken from a tenant in a go
 
 For further details on the TDP see https://www.gov.uk/tenancy-deposit-protection.
 
-### Current Challenges
-
-The biggest challenges for both tenants and landlords/letting agents with current TDPs is one of trust, communication, time, as well as understanding legal requirements.
-
-#### For Landlords
-* Landlords must understand how to correctly protect a deposit and be aware of their legal responsibility.
-  * Some landlords, in particular non-professional ones, will often delegate the deposit process to a letting agent for a fee and will have to trust the letting agent to correctly protect a deposit with a TDP.
-
-* Once a deposit is protected, the landlord or agent has 30 days to provide the tenant a list of information regarding the details of the protection including how much of the deposit has been protected, where it is protected, how the tenant can get the deposit back and how they can raise any disputes (for the full list of details see https://www.gov.uk/tenancy-deposit-protection/information-landlords-must-give-tenants). Failing to provide this information within the stated time can result in legal action against the **landlord**.
-
-
-#### For Tenants
-* Tenants must rely/trust the landlord or agent to protect their deposit correctly. It is also the tenants responsibility to check if the deposit has been protected correctly and raise a legal claim if it has not. 
-
-## Proposed Solution
+### Proposed Solution
 This project aims to implement a streamlined tenancy deposit service based on Ethereum smart contracts - "Smart Tenancy Deposits".
 
-The solution will implement a single web application/dapp for both tenants and landlords to manage deposits and deposit agreements i.e. Via the use of smart contracts, the deposit will be protected by both the tenant and landlord wallets and any amount will not be withdrawable without approval from both parties. There will also be an adjudication service to handle and resolve any disputes between landlord and tenant (in reality and in compliance with UK law, this would be the government approved/authorised third party which is providing this "smart tenancy deposit" service).
+The solution will implement a single web application/dapp for both tenants and landlords to manage deposits and deposit agreements.
 
-### (Very) High Level User Workflow
+### High Level User Workflow
 
 #### Landlord
 1. Login to application.
 2. View details about all their properties.
 3. For any newly tenanted properties (including renewals), view the received deposit amount.
-4. Issue deposit details/certificate to the tenant via a non-fungible asset.
-5. For any 'end of tenancy' properties, view deposit releases and agree/disagree.
-6. Raise disputes or view existing/ongoing disputes.
+5. For any 'end of tenancy' properties, make deductions and deposit releases.
 
 #### Tenant
 1. Login to application.
-2. View details about their rented property e.g. Address, tenancy agreement start and end dates, etc.
+2. View details about their rented property.
 3. Pay required deposit amounts or view existing deposit details.
-4. Request for deposit to be released or renewed (will require burning of existing deposit certificate and issuance of a new one), depending on whether tenancy agreement is being ended or renewed.
-5. Raise dispute or view existing/ongoing dispute.
+4. Withdraw released deposits.
 
-#### Adjudicator 
-1. Login to application.
-2. View disputes.
-3. Resolve disputes.
+## Deployed DApp
+https://condescending-mirzakhani-b803b5.netlify.app
 
+**Please Note:** You will **only** be able to interact with the app as a "Tenant", as "Landlord" access is limited to the contract owner. For **full** interaction, please see the **Local Setup** section below for details on deploying and accessing the application locally. Also see the **Video Walkthrough** section below for a full demo of the app.
 
-### Technical Workflow/Design
+## Video Walkthrough
 
-TBD
+## Project Structure
+```
+.
+├── client
+│   ├── src
+│   │   ├── contracts
+│   │   │   ├── Migrations.json
+│   │   │   └── TenancyDeposit.json
+│   │   └── js
+│   │       ├── utils
+│   │       │   └── constants.js
+│   │       ├── landlords.js
+│   │       └── tenants.js
+│   ├── index.html
+│   ├── landlords.html
+│   └── tenants.html
+├── contracts
+│   ├── Migrations.sol
+│   └── TenancyDeposit.sol
+├── migrations
+│   ├── 1_initial_migration.js
+│   └── 2_deploy_contracts.js
+├── test
+│   ├── exceptionsHelpers.js
+│   └── tenancy_deposit.js
+├── LICENSE
+├── README.md
+├── avoiding_common_attacks.md
+├── deployed_address.txt
+├── design_pattern_decisions.md
+├── finalprojectchecklist.txt
+├── package-lock.json
+├── package.json
+└── truffle-config.js
+```
+## Local Setup
 
-*questions/points to consider and investigate further:*
-* *Will deposit payment be in eth or gbp - if the latter, then will need to get current price at time of deposit and withdrawl i.e. use an oracle service, or perhaps use a gbp stablecoin if one exist.*
-* *Do smart contracts support state/workflow e.g. Deposit payed -> notify landlord -> wait for landlord to approve -> send confirmation back to tenant, or will each stage be its own transaction and state will need to be stored off-chain.*
-* *Take multi-sig approach or track approval state in workflow state - need to better understand how multi-sig actually works/is implemented.*
-* *What happens to approval when adjudicator is involved. Does release approval still remain with tenant and landlord but release function requires adjudicator approved flag to be passed in, or funds are moved to adjudicators wallet in case of dispute and they are then responsible for releasing (this ends up being the same as the current custodial service and requiring full trust in the third-party). Needs more thought.*
------
+**Requirements/Dependencies**
+Project was built and tested against:
+* Node v16.5.0
+* Npm v7.19.1
+
+And has the following npm dependecies:
+* ganache-cli v6.12.2
+* truffle v5.4.22
+* @truffle/hdwallet-provider v1.7.0
+* @openzeppelin/contracts v4.3.3
+* web3 1.5.3
+* bignumber.js v7.2.1
+* dotenv v10.0.0
+* http-server v14.0.0
+
+To run locally, please follow these instructions:
+1. Ensure **truffle** and **ganache-cli** are installed. If not run: ``npm i -g ganache-cli`` and ``npm i -g truffle``. Also ensure you have **Metamask** installed in your browser (https://metamask.io/download).
+2. Open a new terminal window and start the Ganache CLI on the default port (8545): ```ganache-cli```.
+4. Take the private keys of the first two accounts (account [0] and account [1]) generated by Ganache and import them into your Metamask browser extension (these will be needed for front-end/UI testing).
+5. Clone/checkout this repository e.g.
+``git clone https://github.com/w3ia/blockchain-developer-bootcamp-final-project.git``
+6. Cd to the cloned repo directory and run ``npm install``.
+7. Once install is complete:
+ * To compile the contract(s) run: ``truffle compile``.
+ * To test the contract(s) run: ``truffle test``.
+ * To migrate the contracts run: ``truffle migrate``.
+8. Once the contract(s) have been migrated to test/access the front-end:
+* From the ``truffle migrate`` output, get the **contract address** of the **TenancyDeposit** deployment and update **CONTRACT_ADDRESS** constant in the ``client/src/js/utils/constants.js`` file with this contract address.
+* From the project root, run ``npm start``. This will open a browser window to http://localhost:3000.
+* To interact with the app, ensure Metamask is connected to the **Localhost 8545** network, and use **account [0]** imported in step 4 above for Landlord and **account[1]** imported in step 4 above for Tenant (For full demo usage, please see the **Video Walkthrough** section above.)
+
+## Ethereum address for NFT certificate
+0x5090cBC622Dc56770Ce07940aE5B48e43Dab9251
