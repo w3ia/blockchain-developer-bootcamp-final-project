@@ -108,8 +108,8 @@ To run locally, please follow these instructions:
  * To compile the contract(s) run: ``truffle compile``.
  * To test the contract(s) run: ``truffle test``.
  * To migrate the contracts run: ``truffle migrate``.
-8. Once the contract(s) have been migrated to test/access the front-end:
-* From the ``truffle migrate`` output, get the **contract address** of the **TenancyDeposit** deployment and update **CONTRACT_ADDRESS** constant in the ``client/src/js/utils/constants.js`` file with this contract address.
+8. Once the contract(s) have been migrated, to test/access the front-end:
+* From the ``truffle migrate`` output, get the **contract address** of the **TenancyDeposit** deployment and update the **CONTRACT_ADDRESS** constant in the ``client/src/js/utils/constants.js`` file with this contract address.
 * From the project root, run ``npm start``. This will open a browser window to http://localhost:3000.
 * To interact with the app, ensure Metamask is connected to the **Localhost 8545** network, and use **account [0]** imported in step 4 above for Landlord and **account[1]** imported in step 4 above for Tenant (For full demo usage, please see the [**Video Walkthrough**](https://github.com/w3ia/blockchain-developer-bootcamp-final-project#video-walkthrough) section above.)
 
