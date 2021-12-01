@@ -41,6 +41,9 @@ As a Tenant you will be able to:
 For **full** interaction, please see the [**Local Setup**](https://github.com/w3ia/blockchain-developer-bootcamp-final-project#local-setup) section below for details on deploying and accessing the application locally. Also see the [**Video Walkthrough**](https://github.com/w3ia/blockchain-developer-bootcamp-final-project#video-walkthrough) section below for a full demo of the app.
 
 ## Video Walkthrough
+[youtube] (https://youtu.be/6zsJu5JkvaE)
+[Download](https://github.com/w3ia/blockchain-developer-bootcamp-final-project/raw/main/project_walkthrough.mp4)
+
 
 ## Project Structure
 ```
