@@ -11,6 +11,7 @@ let propertyTableId = "#properties";
 let propertyTableClass = ".properties";
 
 $(window).on('load', function () {
+    
     // Load contract ABI
     $.getJSON("./src/contracts/TenancyDeposit.json", function(json) {
         tenancyDepositAbi = json;

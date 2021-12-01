@@ -53,6 +53,7 @@ $(window).on('load', function () {
         });
     });
 
+    // Refresh deposit table event
     $("#refresh-deposits").click(function() {
         console.log("refresh-deposits clicked");
         $("#load-refresh-deposits").addClass("spinner-border spinner-border-sm");
@@ -71,6 +72,7 @@ $(window).on('load', function () {
         });
     });
 
+    // Submission of pay-deposit form
     $("#pay-deposit").submit(function(event) {
         $("#load-pay-deposit").addClass("spinner-border spinner-border-sm");
         console.log("pay-deposit clicked");
@@ -92,6 +94,7 @@ $(window).on('load', function () {
         });
     });
 
+    // Submission of withdraw-deposit form
     $("#withdraw-deposit").submit(function(event) {
         $("#load-withdraw-deposit").addClass("spinner-border spinner-border-sm");
         console.log("withdraw-deposit clicked");
@@ -254,6 +257,7 @@ function getAgreementState(state) {
     }
 }
 
+// Not used
 function refresh () {
    /* updateDepositTableData(propertyId)
     if(propertyId && deposit) {
