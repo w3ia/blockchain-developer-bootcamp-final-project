@@ -41,12 +41,18 @@ $(window).on('load', function () {
         updatePropertyTableData().then((response) => {
             $("#load-refresh-properties").removeClass("spinner-border spinner-border-sm");
             $('.toast').toast('show');
-            if (!response.length || response.includes("TypeError")) {
-                $('.toast-body').html("<p>Failed to refresh.</p>Please ensure wallet is connected.");
-            } else if (!response.length || response.includes("reverted")) {
-                let revertError = response.match(/reverted(.*?)\"/g);
-                console.log("result: ", revertError[0]);
-                $('.toast-body').html(revertError[0]);
+            if(response) {
+                if (response.includes("TypeError") || response.includes("INVALID_ARGUMENT") || response.includes("{}")) {
+                    $('.toast-body').html("<p>Failed to refresh</p>Please ensure wallet is connected");
+                } else if (response.includes("INSUFFICIENT_FUNDS")) {
+                    $('.toast-body').html("INSUFFICIENT USER FUNDS");
+                } else if (response.includes("reverted")) {
+                    let revertError = response.match(/reverted(.*?)\"/g);
+                    $('.toast-body').html(revertError[0]);
+                } else if (response.includes("revert")) {
+                    let revertError = response.match(/revert(.*?)\"/g);
+                    $('.toast-body').html(revertError[0]);
+                } 
             } else {
                 $('.toast-body').html("Property table successfully refreshed");
             }
@@ -60,12 +66,18 @@ $(window).on('load', function () {
         updateDepositTableData().then((response) => {
             $("#load-refresh-deposits").removeClass("spinner-border spinner-border-sm");
             $('.toast').toast('show');
-            if (!response.length || response.includes("TypeError")) {
-                $('.toast-body').html("<p>Failed to refresh.</p>Please ensure wallet is connected.");
-            } else if (!response.length || response.includes("reverted")) {
-                let revertError = response.match(/reverted(.*?)\"/g);
-                console.log("result: ", revertError[0]);
-                $('.toast-body').html(revertError[0]);
+            if(response) {
+                if (response.includes("TypeError") || response.includes("INVALID_ARGUMENT") || response.includes("{}")) {
+                    $('.toast-body').html("<p>Failed to refresh</p>Please ensure wallet is connected");
+                } else if (response.includes("INSUFFICIENT_FUNDS")) {
+                    $('.toast-body').html("INSUFFICIENT USER FUNDS");
+                } else if (response.includes("reverted")) {
+                    let revertError = response.match(/reverted(.*?)\"/g);
+                    $('.toast-body').html(revertError[0]);
+                } else if (response.includes("revert")) {
+                    let revertError = response.match(/revert(.*?)\"/g);
+                    $('.toast-body').html(revertError[0]);
+                } 
             } else {
                 $('.toast-body').html("Deposit table successfully refreshed");
             }
@@ -82,12 +94,18 @@ $(window).on('load', function () {
         payDeposit(inputs).then((response) => {
             $("#load-pay-deposit").removeClass("spinner-border spinner-border-sm");
             $('.toast').toast('show');
-            if (!response || response.includes("TypeError")) { 
-                $('.toast-body').html("<p>Failed to proceed.</p>Please ensure wallet is conneceted and input is valid");
-            } else if (!response || response.includes("reverted")) {
-                let revertError = response.match(/reverted(.*?)\"/g);
-                console.log("result: ", revertError[0]);
-                $('.toast-body').html(revertError[0]);
+            if(response) {
+                if (response.includes("TypeError") || response.includes("INVALID_ARGUMENT") || response.includes("{}")) {
+                    $('.toast-body').html("<p>Failed to take payment</p>Please ensure wallet is connected and input is valid");
+                } else if (response.includes("INSUFFICIENT_FUNDS")) {
+                    $('.toast-body').html("INSUFFICIENT USER FUNDS");
+                } else if (response.includes("reverted")) {
+                    let revertError = response.match(/reverted(.*?)\"/g);
+                    $('.toast-body').html(revertError[0]);
+                } else if (response.includes("revert")) {
+                    let revertError = response.match(/revert(.*?)\"/g);
+                    $('.toast-body').html(revertError[0]);
+                } 
             } else {
                 $('.toast-body').html("Deposit successfully paid");
             }
@@ -104,12 +122,18 @@ $(window).on('load', function () {
         withdrawDeposit(inputs).then((response) => {
             $("#load-withdraw-deposit").removeClass("spinner-border spinner-border-sm");
             $('.toast').toast('show');
-            if (!response || response.includes("TypeError")) { 
-                $('.toast-body').html("<p>Failed to proceed.</p>Please ensure wallet is conneceted and input is valid");
-            } else if (!response || response.includes("reverted")) {
-                let revertError = response.match(/reverted(.*?)\"/g);
-                console.log("result: ", revertError[0]);
-                $('.toast-body').html(revertError[0]);
+            if(response) {
+                if (response.includes("TypeError") || response.includes("INVALID_ARGUMENT") || response.includes("{}")) {
+                    $('.toast-body').html("<p>Failed to withdraw</p>Please ensure wallet is connected and input is valid");
+                } else if (response.includes("INSUFFICIENT_FUNDS")) {
+                    $('.toast-body').html("INSUFFICIENT USER FUNDS");
+                } else if (response.includes("reverted")) {
+                    let revertError = response.match(/reverted(.*?)\"/g);
+                    $('.toast-body').html(revertError[0]);
+                } else if (response.includes("revert")) {
+                    let revertError = response.match(/revert(.*?)\"/g);
+                    $('.toast-body').html(revertError[0]);
+                } 
             } else {
                 $('.toast-body').html("Deposit successfully withdrawn");
             }
@@ -151,12 +175,9 @@ async function payDeposit(inputs) {
 
         updateDepositTableData();
         updatePropertyTableData();
-
-        return true;
-
     } catch (error) {
-        console.error(error);
-        return error.toString();
+        console.error(JSON.stringify(error));
+        return JSON.stringify(error);
     }
 }
 
@@ -168,12 +189,9 @@ async function withdrawDeposit(inputs) {
 
         updateDepositTableData();
         updatePropertyTableData();
-
-        return true;
-
     } catch (error) {
-        console.error(error);
-        return error.toString();
+        console.error(JSON.stringify(error));
+        return JSON.stringify(error);
     }
 }
 
@@ -201,10 +219,9 @@ async function updatePropertyTableData() {
             "</td><td>" + ethers.utils.formatEther(deposit.depositAmount) + "</td><td>" + getAgreementState(deposit.agreementState) + 
             "</td></tr>");
         }
-        return propertyIds;
     } catch (error) {
-        console.error(error);
-        return error.toString();
+        console.error(JSON.stringify(error));
+        return JSON.stringify(error);
     }
 }
 
@@ -235,10 +252,9 @@ async function updateDepositTableData() {
             "</td><td>" + ethers.utils.formatEther(deposit.returnAmount) + "</td><td>" + getAgreementState(deposit.agreementState) + 
             "</td></tr>");
         }
-        return propertyIds;
     } catch (error) {
-        console.error(error);
-        return error.toString();
+        console.error(JSON.stringify(error));
+        return JSON.stringify(error);
     }
 }
 

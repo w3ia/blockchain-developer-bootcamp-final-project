@@ -43,14 +43,20 @@ $(window).on('load', function () {
         updatePropertyTableData().then((response) => {
             $("#load-refresh-properties").removeClass("spinner-border spinner-border-sm");
             $('.toast').toast('show');
-            if (!response.length || response.includes("TypeError")) {
-                $('.toast-body').html("<p>Failed to refresh.</p>Please ensure wallet is connected.");
-            } else if (!response.length || response.includes("reverted")) {
-                let revertError = response.match(/reverted(.*?)\"/g);
-                console.log("result: ", revertError[0]);
-                $('.toast-body').html(revertError[0]);
+            if (response) {
+                if (response.includes("TypeError") || response.includes("INVALID_ARGUMENT") || response.includes("{}")) {
+                    $('.toast-body').html("<p>Failed to refresh.</p>Please ensure wallet is connected.");
+                } else if (response.includes("INSUFFICIENT_FUNDS")) {
+                    $('.toast-body').html("INSUFFICIENT USER FUNDS");
+                } else if (response.includes("reverted")) {
+                    let revertError = response.match(/reverted(.*?)\"/g);
+                    $('.toast-body').html(revertError[0]);
+                } else if (response.includes("revert")) {
+                    let revertError = response.match(/revert(.*?)\"/g);
+                    $('.toast-body').html(revertError[0]);
+                } 
             } else {
-                $('.toast-body').html("Property table successfully refreshed");
+                    $('.toast-body').html("Property table successfully refreshed");
             }
         });
     });
@@ -65,14 +71,21 @@ $(window).on('load', function () {
         createDeposit(inputs).then((response) => {
             $("#load-create-deposit").removeClass("spinner-border spinner-border-sm");
             $('.toast').toast('show');
-            if (!response || response.includes("TypeError")) { 
-                $('.toast-body').html("<p>Failed to proceed.</p>Please ensure wallet is conneceted and input is valid");
-            } else if (!response || response.includes("reverted")) {
-                let revertError = response.match(/reverted(.*?)\"/g);
-                console.log("result: ", revertError[0]);
-                $('.toast-body').html(revertError[0]);
+            console.log("response: ",response);
+            if (response) {
+                if (response.includes("TypeError") || response.includes("INVALID_ARGUMENT") || response.includes("{}")) {
+                    $('.toast-body').html("<p>Failed to create</p>Please ensure wallet is connected and input is valid");
+                } else if (response.includes("INSUFFICIENT_FUNDS")) {
+                    $('.toast-body').html("INSUFFICIENT USER FUNDS");
+                } else if (response.includes("reverted")) {
+                    let revertError = response.match(/reverted(.*?)\"/g);
+                    $('.toast-body').html(revertError[0]);
+                } else if (response.includes("revert")) {
+                    let revertError = response.match(/revert(.*?)\"/g);
+                    $('.toast-body').html(revertError[0]);
+                } 
             } else {
-                $('.toast-body').html("New deposit agreement successfully created");
+                    $('.toast-body').html("New deposit agreement successfully created");
             }
         });
     });
@@ -87,14 +100,20 @@ $(window).on('load', function () {
         returnDeposit(inputs).then((response) => {
             $("#load-return-deposit").removeClass("spinner-border spinner-border-sm");
             $('.toast').toast('show');
-            if (!response || response.includes("TypeError")) { 
-                $('.toast-body').html("<p>Failed to proceed.</p>Please ensure wallet is connected and input is valid");
-            } else if (!response || response.includes("reverted")) {
-                let revertError = response.match(/reverted(.*?)\"/g);
-                console.log("result: ", revertError[0]);
-                $('.toast-body').html(revertError[0]);
+            if(response) {
+                if (response.includes("TypeError") || response.includes("INVALID_ARGUMENT") || response.includes("{}")) {
+                    $('.toast-body').html("<p>Failed to approve return</p>Please ensure wallet is connected and input is valid");
+                } else if (response.includes("INSUFFICIENT_FUNDS")) {
+                    $('.toast-body').html("INSUFFICIENT USER FUNDS");
+                } else if (response.includes("reverted")) {
+                    let revertError = response.match(/reverted(.*?)\"/g);
+                    $('.toast-body').html(revertError[0]);
+                } else if (response.includes("revert")) {
+                    let revertError = response.match(/revert(.*?)\"/g);
+                    $('.toast-body').html(revertError[0]);
+                } 
             } else {
-                $('.toast-body').html("Deposit successfully approved for withdrawl: " + response.tenant.toString().slice(0,9));
+                $('.toast-body').html("Deposit return successfully approved");
             }
         });
     });
@@ -136,10 +155,9 @@ async function createDeposit(inputs) {
         createTx = await contract.getDeposit(propertyId);
 
         updatePropertyTableData();
-
-        return createTx;
     } catch (error) {
-        return error.toString();
+        console.error(JSON.stringify(error));
+        return JSON.stringify(error);
     }
 }
 
@@ -153,9 +171,9 @@ async function returnDeposit(inputs) {
         returnTx = await contract.getDeposit(propertyId);
 
         updatePropertyTableData();
-        return returnTx;
     } catch (error) {
-        return error.toString();
+        console.error(JSON.stringify(error));
+        return JSON.stringify(error);
     }
 }
 
@@ -176,10 +194,10 @@ async function updatePropertyTableData() {
             + ethers.utils.formatEther(deposit.depositAmount) + "</td><td>" + ethers.utils.formatEther(deposit.deductions) + "</td><td>" + 
             ethers.utils.formatEther(deposit.returnAmount) + "</td><td>" + getAgreementState(deposit.agreementState) + "</td></tr>");
         }
-        return propertyIds;
     } catch (error) {
         console.error(error);
-        return error.toString();
+        console.error(JSON.stringify(error));
+        return JSON.stringify(error);
     }
 }
 
