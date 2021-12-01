@@ -1,7 +1,7 @@
 ## Design Patterns
 
 ### Access Control Design Patterns
-Access to key functions is controlled by "role" modifiers e.g. Only a "Landlord" can create new agreements (`createDepositAgreement` function) or release deposits (`releaseDeposit` function ) and only a "Tenant" can pay (`payDeposit` function) or withdraw a deposit (`withdrawDeposit` function).
+Access to key functions is controlled by "role" modifiers e.g. Only a "Landlord" can create new agreements (`createDepositAgreement` function) or release deposits (`approveDepositReturn` function ) and only a "Tenant" can pay (`payDeposit` function) or withdraw a deposit (`withdrawDeposit` function).
   
 
 ### Inheritance and Interfaces
