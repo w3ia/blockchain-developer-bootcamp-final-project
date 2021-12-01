@@ -171,7 +171,9 @@ async function updatePropertyTableData() {
         $(propertyTableId).html("");
 
         for (let [propertyId, deposit] of propertyTableData.entries()) {
-            $(propertyTableClass).append("<tr><td>" + propertyId.toString() + "</td><td>" + deposit.tenant.toString().slice(0,9) + "</td><td>" + ethers.utils.formatEther(deposit.depositAmount) + "</td><td>" + ethers.utils.formatEther(deposit.deductions) + "</td><td>" + ethers.utils.formatEther(deposit.returnAmount) + "</td><td>" + getAgreementState(deposit.agreementState) + "</td></tr>");
+            $(propertyTableClass).append("<tr><td>" + propertyId.toString() + "</td><td>" + deposit.tenant.toString().slice(0,9) + "</td><td>" 
+            + ethers.utils.formatEther(deposit.depositAmount) + "</td><td>" + ethers.utils.formatEther(deposit.deductions) + "</td><td>" + 
+            ethers.utils.formatEther(deposit.returnAmount) + "</td><td>" + getAgreementState(deposit.agreementState) + "</td></tr>");
         }
         return propertyIds;
     } catch (error) {

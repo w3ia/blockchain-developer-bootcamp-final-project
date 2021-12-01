@@ -194,7 +194,9 @@ async function updatePropertyTableData() {
         }
 
         for (let [propertyId, deposit] of propertyTableData.entries()) {
-            $(propertyTableClass).append("<tr><td>" + propertyId.toString() + "</td><td>" + deposit.landlord.toString().slice(0,9) + "</td><td>" + ethers.utils.formatEther(deposit.depositAmount) + "</td><td>" + getAgreementState(deposit.agreementState) + "</td></tr>");
+            $(propertyTableClass).append("<tr><td>" + propertyId.toString() + "</td><td>" + deposit.landlord.toString().slice(0,9) + 
+            "</td><td>" + ethers.utils.formatEther(deposit.depositAmount) + "</td><td>" + getAgreementState(deposit.agreementState) + 
+            "</td></tr>");
         }
         return propertyIds;
     } catch (error) {
@@ -225,7 +227,10 @@ async function updateDepositTableData() {
         }
 
         for (let [propertyId, deposit] of depositTableData.entries()) {
-            $(depositTableClass).append("<tr><td>" + propertyId.toString() + "</td><td>" + deposit.landlord.toString().slice(0,9) + "</td><td>" + ethers.utils.formatEther(deposit.depositAmount) + "</td><td>" + ethers.utils.formatEther(deposit.deductions) + "</td><td>" + ethers.utils.formatEther(deposit.returnAmount) + "</td><td>" + getAgreementState(deposit.agreementState) + "</td></tr>");
+            $(depositTableClass).append("<tr><td>" + propertyId.toString() + "</td><td>" + deposit.landlord.toString().slice(0,9) + 
+            "</td><td>" + ethers.utils.formatEther(deposit.depositAmount) + "</td><td>" + ethers.utils.formatEther(deposit.deductions) + 
+            "</td><td>" + ethers.utils.formatEther(deposit.returnAmount) + "</td><td>" + getAgreementState(deposit.agreementState) + 
+            "</td></tr>");
         }
         return propertyIds;
     } catch (error) {
