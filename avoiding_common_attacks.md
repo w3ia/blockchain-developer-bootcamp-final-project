@@ -7,5 +7,5 @@
 * Use ``require`` to check sender's balances and allowances, where applicable.
 * Use checks-effects-interactions in the ``payDeposit`` and ``withdrawDeposit`` functions - [SWC-107](https://swcregistry.io/docs/SWC-107).
 * Use Openzeppelin's [ReentrancyGuard](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/security/ReentrancyGuard.sol) to safeguard against reentrancy attack - [SWC-107](https://swcregistry.io/docs/SWC-107).
-* "Pull over Push" method for deposit withdrawals via the``releaseDeposit`` and ``withdrawDeposit`` functions.
+* "Pull over Push" method for deposit withdrawals via the``approveDepositReturn`` and ``withdrawDeposit`` functions.
 * Using modifiers to perform validation e.g. Ensuring the message sender has the correct "role" or ensuring the contract balance is enough before approving or allowing deposit withdrawls.
