@@ -24,7 +24,7 @@ The solution will implement a single web application/dapp for both tenants and l
 3. Pay required deposit amounts or view existing deposit details.
 4. Withdraw released deposits.
 
-## Deployed DApp
+## Deployed App
 https://condescending-mirzakhani-b803b5.netlify.app
 
 **Contract is deployed to the Rinkeby testnet**
