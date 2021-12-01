@@ -26,8 +26,8 @@ The solution will implement a single web application/dapp for both tenants and l
 4. Withdraw released deposits.
 
 ### Design details/considerations
-* Current deployed contract between landlords and tenants is 1-to-Many. IRL the contract would support multiple landlords.
-* Deposit are stated in ether.
+* Current deployed contract is 1 Landlord-to-Many Tenants. IRL the contract would support multiple landlords.
+* Deposits are stated in ether.
 * A tenant is allowed to pay a deposit on more than one property e.g. Commercial tenants.
 * A landlord can (re)create an agreement for an existing property, as long as the existing agreement is either in a created(unpaid) or ended state.
 * A tenant cannot pay a deposit on a property that does not exist.
