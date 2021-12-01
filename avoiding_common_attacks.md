@@ -12,4 +12,3 @@
 * Use checks-effects-interactions in the ``payDeposit`` and ``withdrawDeposit`` functions - [SWC-107](https://swcregistry.io/docs/SWC-107).
 * Use Openzeppelin's [ReentrancyGuard](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/security/ReentrancyGuard.sol) to safeguard against reentrancy attack - [SWC-107](https://swcregistry.io/docs/SWC-107).
 * "Pull over Push" method for deposit withdrawals via the``releaseDeposit`` and ``withdrawDeposit`` functions.
-* Include ``receive()`` functions in the contract to receive force-sending of ETH and add the amount to the contract balances.
