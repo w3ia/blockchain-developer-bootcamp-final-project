@@ -122,5 +122,5 @@ To run locally, please follow these instructions:
 * From the project root, run ``npm start``. This will open a browser window to http://localhost:3000.
 * To interact with the app, ensure Metamask is connected to the **Localhost 8545** network, and use **account [0]** imported in step 4 above for Landlord and **account[1]** imported in step 4 above for Tenant (For full demo usage, please see the [**Video Walkthrough**](https://github.com/w3ia/blockchain-developer-bootcamp-final-project#video-walkthrough) section above.)
 
-## Completetion NFT
+## Completion NFT
 https://etherscan.io/nft/0x1975fbcf98b5678db232c8d2c78fb574fab14d73/156
